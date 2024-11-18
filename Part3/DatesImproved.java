@@ -18,6 +18,24 @@ class DatesImproved {
     else return 31;
   }
 
+  private static int checkMonth(int month){
+    if (month >= 1 && month <= 12) {
+      return month;
+    } else {
+      throw new IllegalArgumentException("Invalid month number: " + month);
+    }
+  }
+
+  private static int checkDay (int month, int day){
+    int days = daysInMonth(month);
+     if ((day > 0 && day < 31) && (day < days)){
+       return day;
+     } else {
+       throw new IllegalArgumentException("Invalid date number: " + day);
+     }
+  }
+
+
   public static void main (String[] args) {
     int someMonth, someDay;
     int laterMonth, laterDay;
@@ -27,11 +45,11 @@ class DatesImproved {
      * Changed month so indexing makes more sense (january = 1, feb = 2 and so forth).
      */
 
-    someMonth = Integer.parseInt(args[0]) - 1 ;
-    someDay = Integer.parseInt(args[1]);
+    someMonth = checkMonth(Integer.parseInt(args[0]));
+    someDay = checkDay(Integer.parseInt(args[1]), someMonth);
 
-    laterMonth = Integer.parseInt(args[2]) - 1;
-    laterDay = Integer.parseInt(args[3]);
+    laterMonth = checkMonth(Integer.parseInt(args[2]) - 1);
+    laterDay = checkDay(Integer.parseInt(args[3]), laterMonth);
 
     /* Used to record what day in the year the first day  */
     /* of someMonth and laterMonth are. */
@@ -41,6 +59,8 @@ class DatesImproved {
     for (aMonth = 0; aMonth < someMonth; aMonth = aMonth + 1) {
       someDayInYear = someDayInYear + daysInMonth(aMonth);
     }
+
+
 
     /**
      * FIXED BUG
