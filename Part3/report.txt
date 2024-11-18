@@ -63,3 +63,46 @@ The difference in days between 10/8 and 10/6 is:
 
 ~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
 ➜
+
+
+
+3.2
+
+main[1] step
+>
+Step completed: "thread=main", Dates.main(), line=48 bci=114
+48        daysBetween = daysBetween + laterDay - someDay;
+
+main[1] locals
+Method arguments:
+args = instance of java.lang.String[4] (id=415)
+Local variables:
+someMonth = 1
+someDay = 1
+laterMonth = 1
+laterDay = 1
+someDayInYear = 31
+laterDayInYear = 0
+aMonth = 1
+daysBetween = -31
+main[1] exit
+
+
+3.3
+
+main[1] step
+>
+Step completed: "thread=main", Dates.main(), line=38 bci=63
+38        for (; aMonth < laterMonth; aMonth = aMonth + 1) {
+
+main[1] list
+34        for (aMonth = 0; aMonth < someMonth; aMonth = aMonth + 1) {
+35            someDayInYear = someDayInYear + daysInMonth(aMonth);
+36        }
+37
+38 =>     for (; aMonth < laterMonth; aMonth = aMonth + 1) {
+39            laterDayInYear = laterDayInYear + daysInMonth(aMonth);
+40        }
+41
+42        /* The answer */
+43        int daysBetween = 0;
