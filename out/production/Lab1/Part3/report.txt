@@ -1,0 +1,18 @@
+
+Your first task is to come up with 3 more tests that show that Dates.class is buggy.
+
+Bug found for inputs:
+
+Dates 12 31 1 1
+returns -398, we expect it to return 1
+
+
+Dates 1 1 1 1
+Expected = 0
+Returns = -31
+
+➜  java Dates 4 6 8 10
+Expected: 4 * 30 + 4 = 124
+The difference in days between 4/6 and 8/10 is:
+2
+

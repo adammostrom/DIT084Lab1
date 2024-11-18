@@ -1,0 +1,65 @@
+
+Your first task is to come up with 3 more tests that show that Dates.class is buggy.
+
+Bug found for inputs:
+
+Dates 12 31 1 1
+returns -398, we expect it to return 1
+
+
+Dates 1 1 1 1
+Expected = 0
+Returns = -31
+
+➜  java Dates 4 6 8 10
+Expected: 4 * 30 + 4 = 124
+The difference in days between 4/6 and 8/10 is:
+2
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 1 2 3 4                                                                                                                                                                                            11/18/24 - 11:24 AM
+The difference in days between 1/2 and 3/4 is:
+33
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 1 1 1 1                                                                                                                                                                                            11/18/24 - 11:25 AM
+The difference in days between 1/1 and 1/1 is:
+-31
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 2 5 2 7                                                                                                                                                                                            11/18/24 - 11:26 AM
+The difference in days between 2/5 and 2/7 is:
+-60
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 2 7 2 5                                                                                                                                                                                            11/18/24 - 11:26 AM
+The difference in days between 2/7 and 2/5 is:
+-64
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 3 5 3 7                                                                                                                                                                                            11/18/24 - 11:26 AM
+The difference in days between 3/5 and 3/7 is:
+-91
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 10 5 10 7                                                                                                                                                                                          11/18/24 - 11:27 AM
+The difference in days between 10/5 and 10/7 is:
+-305
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 10 6 10 7                                                                                                                                                                                          11/18/24 - 11:28 AM
+The difference in days between 10/6 and 10/7 is:
+-306
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 10 6 10 8                                                                                                                                                                                          11/18/24 - 11:28 AM
+The difference in days between 10/6 and 10/8 is:
+-305
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜  java Dates 10 8 10 6                                                                                                                                                                                          11/18/24 - 11:28 AM
+The difference in days between 10/8 and 10/6 is:
+-309
+
+~/ComputerScience/DIT084_TestingAndDebugging/Labs/Lab1/Part3
+➜
