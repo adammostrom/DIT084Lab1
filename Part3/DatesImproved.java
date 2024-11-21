@@ -19,7 +19,7 @@ class DatesImproved {
   }
 
   private static int checkMonth(int month){
-    if (month >= 1 && month <= 12) {
+    if (month > 0 && month <= 12) {
       return month;
     } else {
       throw new IllegalArgumentException("Invalid month number: " + month);

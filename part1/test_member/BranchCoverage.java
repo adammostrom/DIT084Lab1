@@ -37,7 +37,6 @@ public class BranchCoverage {
         Assertions.assertTrue(!setEmpty.member(1));
     }
 
-
     @Test 
     void testIsMember(){
         Assertions.assertTrue(setFilled.member(2));

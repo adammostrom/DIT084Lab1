@@ -4,13 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-
-
 public class TestNextIncomplete {
 
-  /**
-   * Setup
-   */
   WorkSchedule schedule;
   WorkSchedule schedule2;
   WorkSchedule schedule3;
@@ -22,30 +17,14 @@ public class TestNextIncomplete {
     schedule2 = new WorkSchedule(4);
     schedule3 = new WorkSchedule(4);
 
-    // Required number of workers at a certain shift (starttime 1)
     schedule3.setRequiredNumber(3,1,3);
-
-    // Two workers in schedule 3 but only one works from 1 to 2, hence the first hour has 1 less than required.
     schedule3.addWorkingPeriod("Joe", 1,3);
     schedule3.addWorkingPeriod("Jimmy", 2, 3);
     schedule3.addWorkingPeriod("John", 2, 3);
 
 
   }
-  /**
-   * b) nextIncomplete
-   * requires:
-   *   currenttime >= 0 and currenttime < size
-   * ensures:
-   *   if there is an hour in the interval currenttime to size - 1 such that
-   *      the length of workingEmployees is less that requiredNumber
-   *   then
-   *     returns the time of the hour closest to currenttime such that
-   *     the length of workingEmployees is less that requiredNumber
-   *   otherwise
-   *     returns -1
-   *   and in either case the schedule is unchanged
-   */
+
 
   /**
    * ---Input Space---
@@ -61,9 +40,7 @@ public class TestNextIncomplete {
    * P2: No hours in the interval fulfill the requirement.
    */
 
-  /**
-   * ************* PARTITION 1 *************
-   */
+
 
 
   /**
@@ -71,31 +48,27 @@ public class TestNextIncomplete {
    */
   @Test
   public void testAtLeastOneHourFulfillsRequirement(){
-    int currenttime = 1; // currenttime < size (requirement)
-    int expectedHour = 1; // The earliest hour in the interval [1, 3] where workingEmployees < requiredNumber (this hour only has 1 worker).
+    int currenttime = 1;
+    int expectedHour = 1;
 
-    // Assert that the hour that should be returned is the hour closes to the currenttime that still fills the req that length of workingEmployees < requiredNumber.
     Assertions.assertEquals(expectedHour, schedule3.nextIncomplete(currenttime));
-
-    // Checking if the schedule is the same
     Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 3);
     Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 3);
 
   }
 
   /**
-   * This test returns should return -1 due to the fact that the "if" statement fails, which it does because there are 3 workers available for working from 1 to 3, which means that the
    */
 
   /**
    * TEST 3:, should return -1 because we have all workers for the timeslot.
+   * This test returns should return -1 due to the fact that the "if" statement fails, which it does because there are 3 workers available for working from 1 to 3
    */
   @Test
   public void testIncompleteFromDifferentStartTime(){
     int currenttime = 2;
-    // here the length of available workers between 2 and 3 is 2, and the current time is 2, the function returns -1 (else branch).
-    Assertions.assertEquals(-1, schedule3.nextIncomplete(currenttime));
 
+    Assertions.assertEquals(-1, schedule3.nextIncomplete(currenttime));
     Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 3);
     Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 3);
   }
@@ -108,9 +81,8 @@ public class TestNextIncomplete {
   public void testStartAtZero(){
     int currenttime = 0;
     int expectedHour = 1;
-    Assertions.assertEquals(expectedHour, schedule3.nextIncomplete(currenttime));
 
-    // Checking if the schedule is the same
+    Assertions.assertEquals(expectedHour, schedule3.nextIncomplete(currenttime));
     Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 3);
     Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 3);
   }
@@ -132,9 +104,6 @@ public class TestNextIncomplete {
   }
 
 
-  /**
-   * Do we need tests to show that the function nextIncomplete does not have some valid checker for invalid entries like negative values etc?
-   */
 }
 
 
