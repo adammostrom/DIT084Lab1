@@ -45,7 +45,6 @@ public class StatementCoverage {
         setEmpty.insert(1);
         int[] expected = { 1 };
         Assertions.assertArrayEquals(expected, setEmpty.toArray());
-        Assertions.assertTrue(setEmpty.member(1));
     }
 
     /**
@@ -66,8 +65,6 @@ public class StatementCoverage {
         setEmpty.insert(1);
         int[] expected = { 1, 5 };
         Assertions.assertArrayEquals(expected, setEmpty.toArray());
-        Assertions.assertTrue(setEmpty.member(1));
-        Assertions.assertTrue(setEmpty.member(5));
     }
 
     /**

@@ -16,12 +16,9 @@ public class BranchCoverage {
  * 3. Loop executes fully without any break being triggered.
  */
 
-    private Set setEmptyA;
+    private Set setEmpty;
     private Set setA;
-
-    private Set setEmptyB;
     private Set setB;
-
     private Set setC;
 
     IntBinaryOperator add;
@@ -32,29 +29,26 @@ public class BranchCoverage {
     @BeforeEach
     void setup() {
 
-        add  = (x,y) -> x + y;
+        add = (x,y) -> x + y;
         sub = (x,y) -> x - y;
         mul = (x,y) -> x * y;
-    
 
+        setEmpty = new Set();
+
+        /* A closed set  */
         setA = new Set();
+        setA.insert(0);
+
         setB = new Set();
-        setEmptyA = new Set();
-        setEmptyB = new Set();
-
-
+        /* Not a closed set */
+        setB.insert(2);
+        setB.insert(4);
+        
+        /* Closed on multiplication, not addition */
         setC = new Set();
         setC.insert(0);
         setC.insert(1);
         setC.insert(-1);
-
-        /* A closed set  */
-        setA.insert(0);
-
-        /* Not a closed set */
-        setB.insert(2);
-        setB.insert(4);
-
     }
 
     /**
@@ -79,17 +73,17 @@ public class BranchCoverage {
     /** EMPTY SET  */
     @Test 
     void testForEmptyAdd(){
-        Assertions.assertTrue(setEmptyA.distinctClosed(add));
+        Assertions.assertTrue(setEmpty.distinctClosed(add));
     }
 
     @Test 
     void testForEmptySub(){
-        Assertions.assertTrue(setEmptyA.distinctClosed(sub));
+        Assertions.assertTrue(setEmpty.distinctClosed(sub));
     }
 
     @Test 
     void testForEmptyMul(){
-        Assertions.assertTrue(setEmptyA.distinctClosed(mul));
+        Assertions.assertTrue(setEmpty.distinctClosed(mul));
     }
 
 
