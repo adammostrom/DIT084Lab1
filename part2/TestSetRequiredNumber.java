@@ -10,7 +10,6 @@ public class TestSetRequiredNumber
   WorkSchedule schedule1;
   WorkSchedule schedule2;
   WorkSchedule schedule3;
-  WorkSchedule schedule4;
 
   @BeforeEach
   public void setup() {
@@ -18,15 +17,13 @@ public class TestSetRequiredNumber
     schedule1 = new WorkSchedule(4);
     schedule2 = new WorkSchedule(4);
     schedule3 = new WorkSchedule(4);
-    schedule4 = new WorkSchedule(4);
 
-    schedule3.setRequiredNumber(2, 1, 3);
+    schedule2.setRequiredNumber(2, 1, 3);
+    schedule2.addWorkingPeriod("Joe", 1, 3);
+    schedule2.addWorkingPeriod("Jimmy", 2, 3);
+
+    schedule3.setRequiredNumber(1, 1, 3);
     schedule3.addWorkingPeriod("Joe", 1, 3);
-    schedule3.addWorkingPeriod("Jimmy", 2, 3);
-
-    schedule4.setRequiredNumber(1, 1, 3);
-    schedule4.addWorkingPeriod("Joe", 1, 3);
-
   }
 
   /**
@@ -55,9 +52,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_GT_Endtime_And_Nemployee_EQ_WorkingEmployees() {
-    schedule3.setRequiredNumber(2, 3, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 2);
+    schedule2.setRequiredNumber(2, 3, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).workingEmployees.length, 2);
   }
 
   /**
@@ -66,9 +63,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_GT_Endtime_And_Nemployee_LT_WorkingEmployees() {
-    schedule3.setRequiredNumber(1, 3, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 2);
+    schedule2.setRequiredNumber(1, 3, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).workingEmployees.length, 2);
   }
 
   /**
@@ -77,9 +74,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_GT_Endtime_And_Nemployee_EQ_Zero() {
-    schedule3.setRequiredNumber(0, 3, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 2);
+    schedule2.setRequiredNumber(0, 3, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).workingEmployees.length, 2);
   }
 
   /**
@@ -88,9 +85,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_EQ_Endtime_And_Nemployee_GT_WorkingEmployees() {
-    schedule3.setRequiredNumber(3, 2, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 3);
-    Assertions.assertEquals(2, schedule3.readSchedule(2).workingEmployees.length);
+    schedule2.setRequiredNumber(3, 2, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 3);
+    Assertions.assertEquals(2, schedule2.readSchedule(2).workingEmployees.length);
   }
 
   /**
@@ -99,9 +96,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_EQ_Endtime_And_Nemployee_EQ_WorkingEmployees() {
-    schedule3.setRequiredNumber(2, 2, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 2);
-    Assertions.assertEquals(2, schedule3.readSchedule(2).workingEmployees.length);
+    schedule2.setRequiredNumber(2, 2, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 2);
+    Assertions.assertEquals(2, schedule2.readSchedule(2).workingEmployees.length);
   }
 
   /**
@@ -111,9 +108,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_EQ_Endtime_And_Nemployee_LT_WorkingEmployees() {
-    schedule3.setRequiredNumber(1, 2, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 1);
-    Assertions.assertEquals(1, schedule3.readSchedule(2).workingEmployees.length);
+    schedule2.setRequiredNumber(1, 2, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 1);
+    Assertions.assertEquals(1, schedule2.readSchedule(2).workingEmployees.length);
   }
 
   /**
@@ -122,9 +119,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_EQ_Endtime_And_Nemployee_EQ_Zero() {
-    schedule3.setRequiredNumber(0, 2, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 0);
-    Assertions.assertEquals(0, schedule3.readSchedule(2).workingEmployees.length);
+    schedule2.setRequiredNumber(0, 2, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 0);
+    Assertions.assertEquals(0, schedule2.readSchedule(2).workingEmployees.length);
   }
 
   /**
@@ -133,9 +130,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_LT_EndTime_And_NEmployee_GT_WorkingEmployees() {
-    schedule2.setRequiredNumber(2, 2, 3);
-    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 2); // Sets requiredNumber to nemployee
-    Assertions.assertEquals(schedule2.readSchedule(2).workingEmployees.length, 0); // Unchanged
+    schedule1.setRequiredNumber(2, 2, 3);
+    Assertions.assertEquals(schedule1.readSchedule(2).requiredNumber, 2); // Sets requiredNumber to nemployee
+    Assertions.assertEquals(schedule1.readSchedule(2).workingEmployees.length, 0); // Unchanged
   }
 
   /**
@@ -144,9 +141,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_LT_EndTime_And_NEmployee_EQ_WorkingEmployees() {
-    schedule3.setRequiredNumber(2, 1, 2);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 2);
-    Assertions.assertEquals(2, schedule3.readSchedule(2).workingEmployees.length);
+    schedule2.setRequiredNumber(2, 1, 2);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 2);
+    Assertions.assertEquals(2, schedule2.readSchedule(2).workingEmployees.length);
   }
 
 
@@ -156,9 +153,9 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_LT_EndTime_And_NEmployee_LT_WorkingEmployees() {
-    schedule3.setRequiredNumber(1, 2, 3);
-    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 1);
-    Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 1);
+    schedule2.setRequiredNumber(1, 2, 3);
+    Assertions.assertEquals(schedule2.readSchedule(2).requiredNumber, 1);
+    Assertions.assertEquals(schedule2.readSchedule(2).workingEmployees.length, 1);
   }
 
 
@@ -168,10 +165,8 @@ public class TestSetRequiredNumber
    */
   @Test
   public void test_When_StartTime_LT_EndTime_And_NEmployee_EQ_Zero() {
-    schedule4.setRequiredNumber(0, 2, 3);
-    Assertions.assertEquals(schedule4.readSchedule(2).requiredNumber, 0);
-    Assertions.assertEquals(schedule4.readSchedule(2).workingEmployees.length, 0);
+    schedule3.setRequiredNumber(0, 2, 3);
+    Assertions.assertEquals(schedule3.readSchedule(2).requiredNumber, 0);
+    Assertions.assertEquals(schedule3.readSchedule(2).workingEmployees.length, 0);
   }
-
-
 }
