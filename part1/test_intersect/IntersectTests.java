@@ -13,7 +13,8 @@ import part1.Set;
  * 2. Loop executes and exits early (breaks inside due to condition)
  * 3. Loop executes fully without any break being triggered.
  */
-public class BranchCoverage {
+public class IntersectTests
+{
 
     private Set setEmptyA;
     private Set setFilledA;

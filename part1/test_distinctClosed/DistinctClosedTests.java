@@ -7,14 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import part1.Set;
-public class BranchCoverage {
+public class DistinctClosedTests
+{
     
-/**
- * ### For full statement coverage, create test scenarios for:
- * 1. Loop doesnt execute at all (a is empty)
- * 2. Loop executes and exits early (breaks inside due to condition)
- * 3. Loop executes fully without any break being triggered.
- */
+
 
     private Set setEmpty;
     private Set setA;
