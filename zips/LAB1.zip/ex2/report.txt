@@ -1,0 +1,168 @@
+setRequiredNumber
+Input space: nemployee >= 0, starttime >= 0, endtime >= 0
+
+
+Setup: Four schedules are being used for the tests:
+	schedule1:
+		Default constructed schedule, with a length of 4 and no required workers for any of those hours.
+	schedule2:
+		Schedule of length 4 with 2 required workers between hours 1 and 3. Has worker “Jimmy” scheduled for between hours 1 and 3, and has worker “Joe” scheduled for between hours 2 and 3.
+	schedule3:
+		Schedule of length 4 with 1 required worker between hours 1 and 3. Has worker “Joe” scheduled for between hours 1 and 3.
+
+
+tests:
+
+
+Block #1: 
+nemployee > workingEmployee.length, starttime > endtime
+Test: test_When_StartTime_GT_Endtime_And_Nemployee_GT_WorkingEmployees
+object: schedule1
+input: “nemployee = 1, starttime = 3, endtime = 2”
+expected: 
+“schedule1.readSchedule(2).requiredNumber = 0”, “schedule1.readSchedule(2).workingEmployees.length = 0”
+
+
+Block #2: 
+nemployee = workingEmployees.length, starttime > endtime
+Test: test_When_StartTime_GT_Endtime_And_Nemployee_EQ_WorkingEmployees
+object: schedule2
+input: "nemployee = 2, starttime = 3, endtime = 2"
+expected:
+“schedule2.readSchedule(2).requiredNumber = 2”
+“schedule2.readSchedule(2).workingEmployees.length = 2”
+
+
+Block #3: 
+nemployee < workingEmployee.length, starttime > endtime
+Test: test_When_StartTime_GT_Endtime_And_Nemployee_LT_WorkingEmployees 
+object: schedule3
+input: “nemployee = 1, starttime = 3, endtime = 2”
+expected: 
+“schedule3.readSchedule(2).requiredNumber = 2”, “schedule3.readSchedule(2).workingEmployee.length = 2”
+
+
+
+
+
+
+Block #4: 
+nemployee = 0, starttime > endtime
+Test: test_When_StartTime_GT_Endtime_And_Nemployee_EQ_Zero 
+object: schedule3
+input: “nemployee = 0, starttime = 3, endtime = 2”
+expected: 
+“schedule3.readSchedule(2).requiredNumber = 2”, “schedule3.readSchedule(2).workingEmployee.length = 2”
+
+
+
+
+
+
+Block #5: 
+nemployee > workingEmployee.length, starttime = endtime
+Test: test_When_StartTime_EQ_Endtime_And_Nemployee_GT_WorkingEmployees 
+object: schedule3
+input: “nemployee = 3, starttime = 2, endtime = 2”
+expected: 
+“schedule3.readSchedule(2).requiredNumber = 3”, “schedule3.readSchedule(2).workingEmployee.length = 2”
+
+
+Block #6: 
+nemployee = workingEmployees.length, starttime = endtime
+Test: test_When_StartTime_EQ_Endtime_And_Nemployee_EQ_WorkingEmployees
+object: schedule2
+input: "nemployee = 2, starttime = 2, endtime = 2"
+expected:
+“schedule2.readSchedule(2).requiredNumber = 2”
+“schedule2.readSchedule(2).workingEmployees.length = 2”
+
+
+Block #7: 
+nemployee < workingEmployees.length, starttime = endtime
+Test: test_When_StartTime_EQ_Endtime_And_Nemployee_LT_WorkingEmployees
+object: schedule2
+input: "nemployee = 1, starttime = 2, endtime = 2"
+expected:
+“schedule2.readSchedule(2).requiredNumber = 1”
+“schedule2.readSchedule(2).workingEmployees.length = 1”
+
+
+
+
+Block #8: 
+nemployee = 0, starttime = endtime
+Test: test_When_StartTime_EQ_Endtime_And_Nemployee_EQ_Zero
+object: schedule3
+input: “nemployee = 0, starttime = 2, endtime = 2”
+expected: 
+“schedule3.readSchedule(2).requiredNumber = 0”, “schedule3.readSchedule(2).workingEmployee.length = 0”
+
+
+Block #9:
+nemployee > workingEmployees.length, starttime < endtime
+Test: test_When_StartTime_LT_EndTime_And_NEmployee_GT_WorkingEmployees
+object: schedule1
+input: "nemployee = 2, starttime = 2, endtime = 3"
+expected:
+“schedule1.readSchedule(2).requiredNumber = 2”
+“schedule1.readSchedule(2).workingEmployees.length = 0”
+
+
+Block #10: 
+nemployee == workingEmployee.length, starttime < endtime
+Test: test_When_StartTime_LT_EndTime_And_NEmployee_EQ_WorkingEmployees
+object: schedule3
+input: “nemployee = 2, starttime = 1, endtime = 2”
+expected: 
+“schedule3.readSchedule(2).requiredNumber = 2”, “schedule3.readSchedule(2).workingEmployee.length = 2”
+
+
+Block #11:
+nemployee > workingEmployees.length, starttime < endtime
+Test: test_When_StartTime_LT_EndTime_And_NEmployee_LT_WorkingEmployees
+object: schedule2
+input: "nemployee = 1, starttime = 2, endtime = 3"
+expected:
+“schedule2.readSchedule(2).requiredNumber = 1”
+“schedule2.readSchedule(2).workingEmployees.length = 1”
+
+
+Block #12:
+nemployee = 0, starttime < endtime
+Test: test_When_StartTime_LT_EndTime_And_NEmployee_EQ_Zero
+object: schedule3
+input: "nemployee = 0, starttime = 2, endtime = 3"
+expected:
+“schedule3.readSchedule(2).requiredNumber = 0”
+“schedule3.readSchedule(2).workingEmployees.length = 0”
+
+
+
+
+
+
+
+
+
+
+Border Cases:
+We designed our test suite to cover the border cases by indexing each test case based on all potential inputs in a test suite table, each test case a “block”, and in these blocks edge cases are covered.
+
+ 
+Found bugs: One. (the problem lies in this part of the 	
+         specification: 
+ 
+“if the length of workingEmployees is greater than nemployee   	
+	
+  then 
+	
+RequiredNumber is set to nemployee and workingEmployees keeps a number of employees equal to nemployee, discarding the rest.” 
+ 
+This part is incorrect and instead of keeping the same number of employees as nemployee, it discards all employees in WorkingEmployees regardless of nemployee.) 
+ 
+nextIncomplete 
+Input space: currenttime >= 0, size > currenttime 
+Partition #1:  
+
+

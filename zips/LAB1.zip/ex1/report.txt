@@ -1,0 +1,201 @@
+a)
+insert:
+The tests made for insert are made to cover 100% branch coverage and therefore implying full statement coverage also.
+setup:
+	We created 2 sets:
+		setEmpty is an empty set
+		setFilled has had 1, 2, 3, 4 inserted into it
+
+
+tests:
+testLoopNotExecuting: 
+	object: “setEmpty”
+	input: “x=1”
+	output: “{1}”
+
+
+testLoopExecuteAndExitEarly: 
+	object: “setEmpty”
+	input: “x=5”, “x=1”
+	output: “{1, 5}”
+
+
+testLoopExecutesFully: 
+	object: “setFilled”
+	input: “x=6”
+	output: “{1, 2, 4, 5, 6}”
+
+
+testDuplicate:
+	object: “setFilled”
+	input: “x=4”
+	output: “{1, 2, 4, 5}”
+
+
+testInsertBetween:
+	object: “setFilled”
+	input: “x=3”
+	output: “{1, 2, 3, 4, 5}”
+
+
+b)
+member:
+setup:
+	We created 2 sets for us to test with:
+		setEmpty is the default constructed set
+		setFilled has had 1, 2, 4, and 5 inserted into it.
+tests:
+	testEmptySet:
+		object: “setEmpty”
+		input: “x=1”
+		output: “false”
+
+
+	testIsMember:
+object: “setFilled”
+		input: “x=2”
+		output: “true”
+
+
+	testLoopCompleted:	
+object: “setFilled”
+		input: “x=10”
+		output: “false”
+
+
+	testMiddleMemberMissing:	
+object: “setFilled”
+		input: “x=3”
+		output: “false”
+
+
+c)
+intersect:
+setup:
+	We created 4 sets for us to test with:
+	setEmptyA is the default constructed set
+setEmptyB is the default constructed set
+	setFilledA has had 1, 2, 8, and 9 inserted into it
+	setFilledB has had 1, 5, 7, and 9 inserted into it
+The output of the following tests is the result of calling .toArray() on the original object.
+tests:
+	testInputEmpty:
+		object: ”setEmptyA”
+		input: ”s=setEmptyB”
+		output: ”{}”
+
+
+	testAEmpty:
+		object: ”setEmptyA”
+		input: ”s=setFilledB”
+		output: ”{}”
+
+
+testBEmpty:
+object: ”setEmptyB”
+		input: ”s=setFilledA”
+		output: ”{}”
+
+
+testFilledA:
+object: ”setFilledA”
+		input: ”s=setFilledB”
+		output: ”{1, 9}”
+
+
+testFilledB:
+object: ”setFilledB”
+		input: ”s=setFilledA”
+		output: ”{1, 9}”
+
+
+d)
+distinctClosed:
+setup:
+	We created 4 sets to test with:
+		setEmpty is the default constructed set
+		setA contains 0
+		setB has had 2 and 4 inserted into it
+		setC has had -1, 0, and 1 inserted into it
+	We created 3 binary operators to test with:
+		add is (x, y) -> x + y
+		sub is (x, y) -> x - y
+		mult is (x, y) -> x * y
+
+
+tests:
+	testForZeroAdd:
+		object: ”setA”
+		input: ”add”
+		output: ”true”
+
+
+	testForZeroSub:
+		object: ”setA”
+		input: ”sub”
+		output: ”true”
+
+
+	testForZeroMult:
+		object: ”setA”
+		input: ”mult”
+		output: ”true”
+testForEmptyAdd:
+		object: ”setEmpty”
+		input: ”add”
+		output: ”true”
+
+
+	testForEmptySub:
+		object: ”setEmpty”
+		input: ”sub”
+		output: ”true”
+
+
+	testForEmptyMult:
+		object: ”setEmpty”
+		input: ”mult”
+		output: ”true”
+
+
+	testForFalseAdd:
+		object: ”setB”
+		input: ”add”
+		output: ”false”
+
+
+	testForFalseSub:
+		object: ”setB”
+		input: ”sub”
+		output: ”false”
+
+
+	testForFalseMult:
+		object: ”setB”
+		input: ”mult”
+		output: ”false”
+
+
+	testForAdd:
+		object: ”setC”
+		input: ”add”
+		output: ”true”
+
+
+	testForSub:
+		object: ”setC”
+		input: ”sub”
+		output: ”false”
+
+
+	testForMult:
+		object: ”setC”
+		input: ”mult”
+		output: ”true”
+
+
+Bugs:
+We discovered 2 bugs:
+1. In `intersect`, the `i++` on line 56 should not have been present, as it caused i to be incremented too many times.
+2. In `insert`, the break statements should have been return statements, because any time that one of those statements was reached, there would be no valid reason for the .add() call at the end to happen.
+
