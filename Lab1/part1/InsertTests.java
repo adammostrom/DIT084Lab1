@@ -1,4 +1,4 @@
-package part1.test_insert;
+package Lab1.part1;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

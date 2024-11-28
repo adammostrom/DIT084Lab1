@@ -1,4 +1,4 @@
-package part1.test_distinctClosed;
+package Lab1.part1;
 
 import java.util.function.IntBinaryOperator;
 

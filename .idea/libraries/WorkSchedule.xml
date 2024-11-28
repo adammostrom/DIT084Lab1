@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="WorkSchedule">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/part2/WorkSchedule.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lab1/part2/WorkSchedule.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
