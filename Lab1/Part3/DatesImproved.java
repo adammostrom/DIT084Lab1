@@ -1,65 +1,58 @@
-package Part3;
+package Lab1.Part3;
 
 import java.io.*;
 
-class DatesImproved {
-
+public class DatesImproved {
 
   /* Precondition: month is between 1 and 12, inclusive */
   /* Postcondition: returns the number of days in the given month */
-  public static int daysInMonth (int month) {
-    /**
-     * Added special case for Feb
-     */
-    if(month == 1) return 28;
-    /**
-     * Updated the months and their corresponding days.
-     */
+  public static int daysInMonth(int month) {
+    /** Added special case for Feb */
+    if (month == 1) return 28;
+    /** Updated the months and their corresponding days. */
     if ((month == 3) || (month == 5) || (month == 8) || (month == 10)) {
       return 30;
-    }
-    else return 31;
+    } else return 31;
   }
 
-  private static int checkMonth(int month){
-    /**
-     * Changed month so indexing makes more sense (january = 1, feb = 2 and so forth).
-     */
-    int inputMonth = month;
-    month = month - 1;
-    if (month >= 0 && month <= 12) {
-      return month;
-    } else {
-      throw new IllegalArgumentException("Invalid month number: " + inputMonth);
+  public static void checkMonth(int month) {
+    if (month < 0 || month > 12) {
+      throw new IllegalArgumentException("Invalid month number: " + month);
     }
   }
 
-  private static int checkDay (int month, int day){
+  public static int checkDay(int month, int day) {
     int days = daysInMonth(month);
-     if ((day > 0 && day < 31) && (day < days)){
-       return day;
-     } else {
-       throw new IllegalArgumentException("Invalid date number: " + day);
-     }
+    if ((day > 0 && day <= 31) && (day <= days)) {
+      return day;
+    } else {
+      throw new IllegalArgumentException("Invalid date number: " + day);
+    }
   }
-
 
   /**
    * For testing Purposes
+   *
    * @param m1
    * @param d1
    * @param m2
    * @param d2
    * @return
    */
-  public static int calculateTimeBetween (int m1, int d1, int m2, int d2){
+  public static int calculateTimeBetween(int m1, int d1, int m2, int d2) {
 
+    // Check for invalid month inputs
+    checkMonth(m1);
+    checkMonth(m2);
 
-    int someMonth = checkMonth(m1);
-    int someDay = checkDay(m1,d1);
+    // Subtract 1 in order to correctly match the program indexing
 
-    int laterMonth = checkMonth(m2);
-    int laterDay = checkDay(m2,d2);
+    int someMonth = m1 - 1;
+    int laterMonth = m2 - 1;
+
+    int someDay = checkDay(someMonth, d1);
+
+    int laterDay = checkDay(laterMonth, d2);
 
     int aMonth;
 
@@ -72,9 +65,7 @@ class DatesImproved {
       someDayInYear = someDayInYear + daysInMonth(aMonth);
     }
 
-    /**
-     * Fixed bug where loop did not reset aMonth to 0.
-     */
+    /** Fixed bug where loop did not reset aMonth to 0. */
     for (aMonth = 0; aMonth < laterMonth; aMonth = aMonth + 1) {
       laterDayInYear = laterDayInYear + daysInMonth(aMonth);
     }
@@ -84,19 +75,21 @@ class DatesImproved {
     daysBetween = laterDayInYear - someDayInYear;
     daysBetween = daysBetween + laterDay - someDay;
 
-    // Fixed a bug where negative values leaked through for when laterMonth < startMonth (or laterday < startDay)
-    if(daysBetween < 0) {daysBetween = 365 - (daysBetween * (-1));}
-
+    // Fixed a bug where negative values leaked through for when laterMonth < startMonth (or
+    // laterday < startDay)
+    if (daysBetween < 0) {
+      daysBetween = 365 - (daysBetween * (-1));
+    }
 
     return daysBetween;
   }
 
-
   /**
    * Changed Main structure, all calculation now made from calculateTimeBetween method.
+   *
    * @param args
    */
-  public static void main (String[] args) {
+  public static void main(String[] args) {
 
     int daysBetween = 0;
 
@@ -108,12 +101,8 @@ class DatesImproved {
     daysBetween = calculateTimeBetween(m1, d1, m2, d2);
 
     /* The answer */
-    System.out.println("The difference in days between " +
-        m1 + "/" + d1 + " and " +
-        m2 + "/" + d2 + " is: ");
+    System.out.println(
+        "The difference in days between " + m1 + "/" + d1 + " and " + m2 + "/" + d2 + " is: ");
     System.out.println(daysBetween);
   }
-
-
-
 }
