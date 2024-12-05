@@ -22,6 +22,9 @@ public class IntersectTests
     private Set setEmptyB;
     private Set setFilledB;
 
+    private Set testSet;
+    private Set testSet2;
+
     @BeforeEach
     void setup() {
 
@@ -30,6 +33,9 @@ public class IntersectTests
 
         setEmptyA = new Set();
         setEmptyB = new Set();
+
+        testSet2 = new Set();
+        testSet = new Set();
 
         setFilledA.insert(1);
         setFilledA.insert(2);
@@ -40,6 +46,13 @@ public class IntersectTests
         setFilledB.insert(5);
         setFilledB.insert(7);
         setFilledB.insert(9);
+
+        // Resubmission modification
+        testSet.insert(0);
+
+        testSet2.insert(0);
+        testSet2.insert(1);
+
 
     }
 
@@ -82,6 +95,15 @@ public class IntersectTests
         setFilledB.intersect(setFilledA);
         Assertions.assertArrayEquals(expected, setFilledB.toArray());
     }
+
+
+    @Test
+    void testDifferentLengths(){
+        int [] expected = {0};
+        testSet2.intersect(testSet);
+        Assertions.assertArrayEquals(expected, testSet2.toArray());
+    }
+
 
 
 }

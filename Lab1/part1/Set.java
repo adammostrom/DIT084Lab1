@@ -47,7 +47,7 @@ public class Set {
 
     public void intersect(Set s) {
         for (int i = 0, j = 0; i < a.size();) {
-            if (j < s.a.size()) {
+            if (j == s.a.size()) {
                 a.subList(j, a.size()).clear();
                 break;
             }
