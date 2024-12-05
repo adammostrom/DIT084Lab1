@@ -46,7 +46,12 @@ public class Set {
     }
 
     public void intersect(Set s) {
-        for (int i = 0, j = 0; i < a.size() && j < s.a.size();) {
+        for (int i = 0, j = 0; i < a.size();) {
+            if (j < s.a.size()) {
+                a.subList(j, a.size()).clear();
+                break;
+            }
+
             if (a.get(i).equals(s.a.get(j))) {
                 i++;
                 j++;
@@ -59,6 +64,14 @@ public class Set {
                 }
             }
         }
+        
+
+        // stops iterating when reaching the end of `s`, leaving elements in `a` that shouldn't be there
+        // test {0, 1} {0}
+
+
+
+
     }
 
     // Try with:
