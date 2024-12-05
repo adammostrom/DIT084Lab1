@@ -10,12 +10,23 @@ public class TestNextIncomplete {
   WorkSchedule schedule2;
   WorkSchedule schedule3;
 
+  WorkSchedule schedule4;
+
+
   @BeforeEach
   public void setup(){
 
     schedule = new WorkSchedule(4);
     schedule2 = new WorkSchedule(4);
     schedule3 = new WorkSchedule(4);
+
+
+    schedule4 = new WorkSchedule(5);
+    schedule4.setRequiredNumber(3, 1,3);
+    schedule4.addWorkingPeriod("Jane", 1, 3);
+    schedule4.addWorkingPeriod("Kim", 2, 3);
+    schedule4.addWorkingPeriod("Dana", 3, 3);
+
 
     schedule3.setRequiredNumber(3,1,3);
     schedule3.addWorkingPeriod("Joe", 1,3);
@@ -101,6 +112,21 @@ public class TestNextIncomplete {
   @Test
   public void testEmptySchedule() {
     Assertions.assertEquals(-1, schedule.nextIncomplete(0));
+  }
+
+
+  /**
+   * Found a bug, nextIncomplete for several incomplete working hours should return the first incomplete hour.
+   *
+   */
+  @Test
+  public void testMultipleIncompleteOnes(){
+    int currenttime = 1;
+    int expectedHour = 1;
+
+    Assertions.assertEquals(expectedHour, schedule4.nextIncomplete(currenttime));
+    Assertions.assertEquals(schedule4.readSchedule(1).requiredNumber, 3);
+    Assertions.assertEquals(schedule4.readSchedule(1).workingEmployees.length, 1);
   }
 
 
