@@ -59,7 +59,7 @@ method DoubleCapacity()
 
     var new_cells := new int[2 * old_len];
 
-    var k := 0;
+/*     var k := 0;
     while k < new_cells.Length
         invariant new_cells.Length == 2 * old_len
         invariant read_position == old(read_position)
@@ -70,13 +70,13 @@ method DoubleCapacity()
     {
         new_cells[k] := 0;
         k := k + 1;
-    }
+    } */
 
     var i : int := 0;
     while i < old_len
         invariant 0 <= i <= old_len
         invariant forall j :: 0 <= j < i ==> new_cells[j] == old_cells[j]
-        invariant forall j :: old_len <= j < old_len*2 ==> new_cells[j] == 0
+        //invariant forall j :: old_len <= j < old_len*2 ==> new_cells[j] == 0
         invariant new_cells.Length == 2 * old_len
         invariant read_position == old(read_position)
         invariant write_position == old(write_position)
