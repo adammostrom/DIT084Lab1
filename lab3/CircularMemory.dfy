@@ -60,20 +60,35 @@ class CircularMemory
 
     var new_cells := new int[2 * old_len];
 
+    var k := 0;
+    while k < new_cells.Length
+    invariant new_cells.Length == 2 * old_len
+    
+    {
+        new_cells[k] := 0;
+        k := k + 1;
+    }
+
     var i : int := 0;
     while i < old_len
         invariant 0 <= i <= old_len
         invariant forall j :: 0 <= j < i ==> new_cells[j] == old_cells[j]
-        invariant forall j :: i <= j < 2 * old_len ==> new_cells[j] == 0
+        invariant forall j :: i <= j < new_cells.Length ==> new_cells[j] == 0
         invariant new_cells.Length == 2 * old_len
+        invariant read_position == old(read_position)
+        invariant write_position == old(write_position)
+        invariant isFlipped == old(isFlipped)
     {
         new_cells[i] := old_cells[i];
         i := i + 1;
     }
 
+    // Update the cells reference to point to the new array
     cells := new_cells;
-    // No adjustment needed for read_position, write_position, and isFlipped.
+
+    // `read_position`, `write_position`, and `isFlipped` remain unchanged
 }
+
 
 
 }
