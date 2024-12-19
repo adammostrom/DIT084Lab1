@@ -1,103 +1,93 @@
-Partial Correctness Proof:
+----+---------------------------------------------------------------------
+Q   | n > 0
+----+---------------------------------------------------------------------
+S1  | res := 1, var i := 2
+----+---------------------------------------------------------------------
+S   | res := res * i, i := i + 1
+----+---------------------------------------------------------------------
+S2  | skip
+----+---------------------------------------------------------------------
+I   | 2 <= i <= n + 1 ^ res == fact(i - 1)
+----+---------------------------------------------------------------------
+B   | i <= n
+----+---------------------------------------------------------------------
+!B  | i > n
+----+---------------------------------------------------------------------
+V   | n - i + 1
+----+---------------------------------------------------------------------
+R   | res == fact(n)
+----+---------------------------------------------------------------------
 
-(1) given
-wp(
-    res := 1;
-    var i := 2;
-    while i <= n 
-        invariant 2 <= i <= n + 1
-        invariant res == fact(i - 1)
-        decreases n - i + 1
-    {
-        res := res * i;
-        i := i + 1;
-    }
-    , res == fact(n)
-)
+Partial Proof Conditions:
+(1) Q ==> wp(S1, I)
+(2) I ^ B ==> wp(S, I)
+(3) I ^ !B ==> wp(S2, R)
 
+Complete Proof Conditions:
+All Partial Proof Conditions
+(4) I ^ B ==> V > 0 
+(5) I ^ B ==> wp(Vold := V; S, V < Vold)
 
-(2) use sequential rule to separate statements
-wp(
-    res := 1;,
-    wp(
-        var i := 2;,
-        wp(
-            while i <= n 
-                invariant 2 <= i <= n + 1
-                invariant res == fact(i - 1)
-                decreases n - i + 1
-            {
-                res := res * i;
-                i := i + 1;
-            }
-            , res == fact(n)
-        )
-    )
-)
+We will prove all 5 of these conditions, but for partial correctness only the first 3 are relevant.
 
 
-(3) substitute loop for its invariants, assuming that the loops hold (to be proven later)
-wp(
-    res := 1;,
-    wp(
-        var i := 2;,
-        wp(
-            2 <= i <= n + 1 && res == fact(i - 1) && decreases (n - i + 1)
-            , res == fact(n)
-        )
-    )
-)
+(1)
+Q ==> wp(S1, I)
+
+Q ==> wp(res := 1, wp(var i := 2, I))                       -- Sequential
+Q ==> wp(res := 1, 2 >= 2 ^ 2 <= n + 1 ^ res == fact(2-1))  -- Assignment
+Q ==> 2 >= 2 ^ 2 <= n + 1 ^ 1 == fact(1)                    -- Assignment
+Q ==> true ^ 2 <= n + 1 ^ true                              -- Trivially true statements        
+n > 0 ==> n >= 1                                            -- Substitute in Q, subtract 1 from an equation                   
+true                                                        -- Trivially true
 
 
-(4) substitue res with fact(n)
-wp(
-    res := 1;,
-    wp(
-        var i := 2;,
-        2 <= i <= n + 1 && fact(n) == fact(i - 1) && decreases (n - i + 1)
-    )
-)
+(2)
+I ^ B ==> wp(S, I)
+
+I ^ B ==> wp(res := res * i, wp(i := i + 1, I))                                       -- Sequential
+I ^ B ==> wp(res := res * i, (i + 1 >= 2 ^ i + 1 <= n + 1 ^ res == fact(i + 1 - 1)))  -- Assignment
+I ^ B ==> i >= 1 ^ i <= n ^ res * i == fact(i)                                        -- Assignment
+
+(2 <= i <= n + 1 ^ res == fact(i - 1) ^ i <= n) ==> (i + 1 >= 2 ^ i <= n ^ res * i == fact(i)) -- Substituting for I ^ B
+(2 <= i <= n ^ res == fact(i - 1)) ==> (1 <= i <= n ^ res * i == fact(i))                      -- Simplification with range for I
+(2 <= i <= n ^ res == fact(i - 1)) ==> (1 <= i <= n ^ res == fact(i) / i)                      -- Divide both sides of an equation by i
+(2 <= i <= n ^ res == fact(i - 1)) ==> (1 <= i <= n ^ res == fact(i - 1))                      -- Substitute using mathematical definition of a factorial
+true                                                                                           -- Trivially true at this point
 
 
-(5) substitute n + 1 for i
-    > knowing that (n - i + 1) as the loop variant, decreases to equal 0 when the loop finishes (due to being decremented
-      by only 1 each iteration), we can then assume the loop being correct implies that n - i + 1 == 0 and
-      therefore i == n + 1.
-    > if the loop did not run at all, the loop's condition (i <= n) implies that (i > n); The loop invariant
-      (2 <= i <= n + 1) means that for i to be greater than n, i must also equal (n + 1) to satisfy this invariant. 
-wp(
-    res := 1;,
-    wp(
-        var i := 2;,
-        2 <= i <= n + 1 && fact(n) == fact((n + 1) - 1)
-    )
-)
+(3)
+I ^ !B ==> wp(S2, R)
+
+I ^ !B ==> wp(skip, res == fact(n))
+(2 <= i <= n + 1 ^ res == fact(i - 1)) ^ !(i <= n) ==> (res == fact(n)) -- Substitute in I ^ !B and simplify right with rule for skip
+(2 <= i <= n + 1 ^ res == fact(i - 1)) ^ (i > n) ==> (res == fact(n))   -- Rewrite inequality
+(i == n + 1 ^ res == fact(i - 1))  ==> (res == fact(n))                 -- Simplify the possible range of i
+(res == fact(n + 1 - 1)) ==> (res == fact(n))                           -- Subsitute i on left side
+true                                                                    -- Trivially true
 
 
-(6) substitute i
-wp(
-    res := 1;,
-    2 <= 2 <= n + 1 && fact(n) == fact((n + 1) - 1)
-)
+(4)
+I ^ B ==> V > 0 
+
+I ^ B ==> (n - i + 1) > 0
+(2 <= i <= n + 1 ^ res == fact(i - 1) ^ i <= n) => (n - i + 1 > 0) -- Substitution for I and B
+(2 <= i <= n ^ res == fact(i - 1)) => (n - i + 1 > 0)              -- Simplification of joint inequality
+    (n - n + 1 > 0)                                                -- Greatest possible value for i -> least possible value for (n - i + 1)
+    true                                                           -- trivially true
+true                                                               -- trivially true since res == fact(i - 1) is irrelevant, and the other condition p condition is proved to imply q
 
 
-(7) substitute res (nothing to change)
-2 <= 2 <= n + 1 && fact(n) == fact((n + 1) - 1)
+(5)
+
+I ^ B ==> wp(Vold := V; S, V < Vold)
+I ^ B ==> wp(Vold := (n - i + 1), wp(res := res * i, wp(i := i + 1, (n - i + 1) < Vold)))   -- Substitution for S + sequential rule
+I ^ B ==> wp(Vold := (n - i + 1), wp(res := res * i, (n - (i + 1) + 1) < Vold))             -- Substitution rule for i
+I ^ B ==> wp(Vold := (n - i + 1), (n - (i + 1) + 1) < Vold)                                 -- res has no effect on the postcondition here  
+I ^ B ==> (n - (i + 1) + 1) < (n - i + 1)                                                   -- Substitution for Vold
+I ^ B ==> (n - i) < (n - i + 1)                                                             -- for all (p ==> true), (p ==> true) is true
+true
 
 
-(8) trivial simplification
-n >= 1 && true
-
-
-(9) trivial simplification
-n >= 1
-
-(10) proof of our precondition being a subset of the weakest precondition is trivial
-Q -> wp
-(n > 0) => (n >= 1)   
-
-
-
-
-Complete Correctness Proof:
-
+Therefore partial correctness and complete correctness are true by the above statements being proven true.
+QED
