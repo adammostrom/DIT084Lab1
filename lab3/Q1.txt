@@ -1,5 +1,10 @@
-2.
+1.
+Error message from Dafny: “this is the postcondition that could not be proved”. The message indicates 
+that Dafny cannot prove that the postcondition (ensures) is guaranteed, it is basically not certain that
+the postcondition will be true, because when x and y are equal, the program is actually not correct. 
 
+
+2.
 (1)   wp( if (x > y) then { a := x; b := y; } else { a := y; b := x; }, a > b )
  
 (2)   ( (x > y) => wp(a := x;  b := y, a > b) ) ^ ( !(x > y) => wp(a := y; b := x, a > b) )
@@ -18,3 +23,11 @@
 
 We can clearly see that the second condition of the AND does not hold after rewriting it in step 6. When `x == y`,
 the implication is false, and therefore the precondition we are using is not a subset of the weakest precondition.
+
+
+3.
+Since the functions purpose (derived from the postcondition) is to ensure that “a” is always greater than “b”, and 
+the statement (method body) "flips" the values if y is greater than x (but not when it is less than or equal to),
+in order to always return a to be greater than b, we can add a precondition that x and y cannot be equal. It's up
+for discussion if this fix is an effective one, but it restricts the input based on what the method is actually supposed
+to do, while keeping the input parameters unmodified.
