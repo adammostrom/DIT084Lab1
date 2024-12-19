@@ -8,6 +8,7 @@ method ComputeFact(n : nat) returns (res : nat)
     while (i <= n) 
         invariant i >= 2 && i <= n + 1
         invariant res == fact(i - 1)
+        decreases n - i + 1
     {   
         res := res * i;
         i := i + 1;
