@@ -1,0 +1,113 @@
+
+----+---------------------------------------------------------------------
+S1  | res:= 1, var i == 2
+----+---------------------------------------------------------------------
+I   | i >= 2 ^ i <= n + 1 ^ res == fact(i - 1)
+----+---------------------------------------------------------------------
+B   | i <= n
+----+---------------------------------------------------------------------
+S   | res := res * i, i := i + 1
+----+---------------------------------------------------------------------
+S2  | i = n + 1 (value we expect i to have when we exit the loop)
+----+---------------------------------------------------------------------
+!B  | i > n
+----+---------------------------------------------------------------------
+R   | res == fact(n)
+----+---------------------------------------------------------------------
+Q   | n > 0
+----+---------------------------------------------------------------------
+V   | n - i + 1
+----+---------------------------------------------------------------------
+
+
+(1)
+
+Q ---> wp(S1,I)
+
+Q ---> wp(S1, I) =
+    wp(res:=1, wp(var i == 2, I))                        = -- Sequential
+    wp(res:=1, 2 >= 2 ^ 2 <= n + 1 ^ res == fact(2-1)) = -- Assignment
+    2 >= 2 ^ 2 <= n + 1 ^ 1 == fact(1)                 = -- Assignment
+    
+    2 >= 2       - Trivially true
+    2 <= n + 1   - True since n has to be strictly larger than 0, least possible value is 1, 1 + 1 >= 2.
+    fact(1) == 1 - True
+
+    For all, Q ( n > 0 ) holds true.
+
+
+(2)
+
+I ^ B ---> wp(S,I)
+I ^ B ---> wp(res := res * i, wp(i := i + 1, I))                                            -- Sequential
+I ^ B ---> wp(res := res * i, (i + 1 >= 2 ^ i + 1 <= n + 1 ^ res == fact(i + 1 - 1)))     -- Assignment
+I ^ B ---> wp(i + 1 >= 2 ^ i <= n ^ res * i == fact(i) * i)                               -- Assignment
+
+i + 1 >= 2          - True since i >= 2, adding +1 still holds true
+i <= n              - True, as of B 
+res * i == fact(i)  -  ???
+
+
+(3)
+
+I ^ !B ---> wp(S2, R)
+I ^ !B ---> wp(i = n + 1, res == fact(n)) = -- Assignment
+
+When we break the loop, i is larger than n, the weakest condition that passes this is if i = n + 1.
+I States: 
+    i >= 2 ^ 
+    i <= n + 1 ^ 
+    res == fact(i - 1)
+
+We can assess the weakest precondition:
+i > n is True, since i = n + 1.
+res == fact(n) is true, since res == fact(i - 1) and i = n + 1, which can be rewritten as n = i - 1.
+Since i is strictly larger than n, we asses also that i <= n + 1 is true, due to i > n weakest condition would be i = n + 1.
+i >= 2 is true, since i = n + 1, and n is larger than 0 as of precondition Q, the least possible value for n is 1, 1 + 1 >= 2.
+
+(4)
+
+I ^ B ---> V > 0 
+
+For this case we want to show that the loop continues as long as V is larger than 0.
+Hence we want to show that :
+
+I ^ B implies V > 0:
+
+i >= 2 ^ i <= n + 1 ^ res == fact(i-1) ^ i <= n -> n - i + 1 > 0 
+
+We start by simplifying the right side: 
+n - i + 1 > 0 
+n + 1 > i 
+
+Now we want to show that the left hand side implies n + 1 > i.
+i has to be larger or equal to 2, as by "i >=2" condition. The smallest possible value for i is 2.
+Second, by the loop condition (B), i has to be smaller or equal to n. The largest possible value for i is therefore 2.
+The condition: i <= n + 1 holds true, since 2 <= 2 + 1 is true.
+
+The implication to prove becomes: 2 + 1 > 2, which is also true. We conclude that this proves the loop does not terminate as long as V is > 0.
+By the condition "i >= 2" shows that i can be much larger, but as we also know that the smallest possible value for n is equal to i, the implication 
+will always hold since (larger than i) + 1 > i 
+
+
+(5)
+
+I ^ B ---> wp(Vold := V; S, V < Vold)
+
+We restructure the expression using the sequential rule:
+
+wp(n - i + 1, wp(i := i + 1, n - i + 1 < Vold))
+Note: The loop body also contains "res == res*i", but since we are merely interested in proving that the loop decreases by each iteration, with respect 
+to its iterative variable "i", we outline this proof without accounting for the res variable, since it is not affecting the decreasing of loop iterations.
+
+Hence, by assignment:
+
+wp (n - i + 1, n - ( i + 1 ) + 1 < Vold) 
+
+Again by assignment: 
+
+n - (i + 1) + 1 < n - i + 1 
+n - i - 1 + 1 < n - i + 1 
+n - i < n - i + 1 --Trivially True. 
+
+Hence we have proven that the amount of loop iterations will decrease by each iteration.
